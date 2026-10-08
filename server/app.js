@@ -8,6 +8,7 @@ const adminRoutes = require("./routes/adminRoutes");
 const searchRoutes = require("./routes/searchRoutes");
 const inquiryRoutes = require("./routes/inquiryRoutes");
 const uploadRoutes = require("./routes/uploadRoutes"); 
+const hotelRoutes = require("./routes/hotelRoutes"); // <-- MAKE SURE THIS IS HERE
 
 const app = express();
 
@@ -26,5 +27,6 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/search", searchRoutes);
 app.use("/api/inquiries", inquiryRoutes);
 app.use("/api/upload", uploadRoutes); 
+app.use("/api/hotels", hotelRoutes); 
 
 module.exports = app;

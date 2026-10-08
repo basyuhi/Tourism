@@ -2,27 +2,16 @@ const mongoose = require("mongoose");
 
 const inquirySchema = new mongoose.Schema(
     {
-        listing: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Listing",
-            required: true,
-        },
-        type: {
-            type: String,
-            enum: ["whatsapp", "affiliate", "instagram", "email"],
-            required: true,
-        },
-        // Optional: If the user clicking is logged in, we track them. 
-        // If not, it's still a valid anonymous lead.
-        user: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-            default: null,
-        },
+        listingId: { type: mongoose.Schema.Types.ObjectId, ref: "Destination" },
+        destinationName: { type: String, required: true },
+        userName: { type: String, required: true },
+        userEmail: { type: String, required: true },
+        userMessage: { type: String, required: true },
+        preferredDate: { type: String },
+        numberOfGuests: { type: String },
+        status: { type: String, enum: ["pending", "contacted", "closed"], default: "pending" }
     },
-    {
-        timestamps: true, // createdAt acts as the timestamp of the click
-    }
+    { timestamps: true }
 );
 
 module.exports = mongoose.model("Inquiry", inquirySchema);

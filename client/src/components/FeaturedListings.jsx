@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchDestinations } from '../lib/api';
-
+import OptimizedImage from './OptimizedImage';
 // A beautiful fallback image in case a database image link is broken (like the Shillong one)
-const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80";
+// const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80";
 
 const FeaturedListings = () => {
     const [featured, setFeatured] = useState([]);
@@ -62,11 +62,11 @@ const FeaturedListings = () => {
                     >
                         {/* Image Container with Smart Fallback */}
                         <div className="relative h-56 overflow-hidden">
-                            <img
+                            <OptimizedImage
                                 src={item.image}
                                 alt={item.title}
-                                onError={(e) => { e.target.onerror = null; e.target.src = FALLBACK_IMAGE; }}
                                 className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                                transformation={[{ width: 800, height: 400, cropMode: 'maintain_ratio' }]}
                             />
                             <span className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-xs font-bold text-gray-800 px-3 py-1 rounded-full shadow-sm">
                                 {item.tag}

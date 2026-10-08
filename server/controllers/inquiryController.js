@@ -1,74 +1,88 @@
-const Inquiry = require("../models/Inquiry");
-const Listing = require("../models/Listing");
+const Inquiry = require("../models/Inquiry"); // Make sure this matches your model file name
 
-// @desc    Track a click and return the redirect URL
+// @desc    Track/Submit a new inquiry
 // @route   POST /api/inquiries/track
 const trackInquiry = async (req, res) => {
     try {
-        const { listingId, type } = req.body;
+        const { listingId, destinationId, destinationName, name, email, message, date, guests } = req.body;
 
-        // 1. Find the listing to get the actual URL/Number
-        const listing = await Listing.findById(listingId);
-        if (!listing) {
-            return res.status(404).json({ message: "Listing not found" });
-        }
+        // Create the inquiry in the database
+        const newInquiry = await Inquiry.create({
+            listingId: listingId || destinationId, // Fallback to destinationId if listingId is missing
+            destinationName: destinationName || "Unknown Destination",
+            userName: name,
+            userEmail: email,
+            userMessage: message,
+            preferredDate: date,
+            numberOfGuests: guests,
+            status: "pending"
+        });
 
-        // 2. Log the inquiry in the database
-        const inquiryData = { listing: listingId, type };
-        if (req.user) {
-            inquiryData.user = req.user._id; // Attach user if logged in
-        }
-        await Inquiry.create(inquiryData);
-
-        // 3. Return the correct redirect URL based on the type
-        let redirectUrl = "";
-        if (type === "whatsapp") {
-            const message = encodeURIComponent("Hi, I found your listing on Bibek and would like to know more!");
-            redirectUrl = `https://wa.me/${listing.whatsappNumber}?text=${message}`;
-        } else if (type === "affiliate") {
-            redirectUrl = listing.affiliateUrl || "#";
-        } else if (type === "instagram") {
-            redirectUrl = listing.instagramLink || "#";
-        }
-
-        res.status(200).json({ success: true, redirectUrl });
+        res.status(201).json({
+            success: true,
+            message: "Inquiry submitted successfully",
+            data: newInquiry
+        });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error("Inquiry Submission Error:", error);
+        res.status(500).json({
+            success: false,
+            message: "Server error while submitting inquiry",
+            error: error.message
+        });
     }
 };
 
-// @desc    Get inquiry stats for a specific listing (For Vendor Dashboard)
+// @desc    Get inquiry stats for a listing
 // @route   GET /api/inquiries/stats/:listingId
 const getInquiryStats = async (req, res) => {
     try {
-        const { listingId } = req.params;
-
-        // Verify the requesting user owns this listing (or is admin)
-        const listing = await Listing.findById(listingId);
-        if (!listing) {
-            return res.status(404).json({ message: "Listing not found" });
-        }
-        if (listing.user.toString() !== req.user._id.toString() && req.user.role !== "admin") {
-            return res.status(403).json({ message: "Not authorized to view these stats" });
-        }
-
-        // Aggregate stats
-        const totalInquiries = await Inquiry.countDocuments({ listing: listingId });
-        const whatsappClicks = await Inquiry.countDocuments({ listing: listingId, type: "whatsapp" });
-        const affiliateClicks = await Inquiry.countDocuments({ listing: listingId, type: "affiliate" });
-        const instagramClicks = await Inquiry.countDocuments({ listing: listingId, type: "instagram" });
+        const stats = await Inquiry.aggregate([
+            { $match: { listingId: req.params.listingId } },
+            { $group: { _id: "$status", count: { $sum: 1 } } }
+        ]);
+        res.status(200).json({ success: true, data: stats });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+// @desc    Get all inquiries for the logged-in user
+// @route   GET /api/inquiries/my-inquiries
+const getUserInquiries = async (req, res) => {
+    try {
+        // req.user is attached by the 'protect' middleware
+        const inquiries = await Inquiry.find({ userEmail: req.user.email })
+            .sort({ createdAt: -1 }) // Newest first
+            .select("-__v"); // Hide mongoose version key
 
         res.status(200).json({
-            totalInquiries,
-            breakdown: {
-                whatsapp: whatsappClicks,
-                affiliate: affiliateClicks,
-                instagram: instagramClicks,
-            },
+            success: true,
+            count: inquiries.length,
+            data: inquiries
         });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error("❌ Get User Inquiries Error:", error);
+        res.status(500).json({ success: false, message: "Server error fetching inquiries" });
+    }
+};
+// @desc    Get ALL inquiries (For Admin/Vendor)
+// @route   GET /api/inquiries/all
+const getAllInquiries = async (req, res) => {
+    try {
+        const inquiries = await Inquiry.find({})
+            .sort({ createdAt: -1 })
+            .populate('listingId', 'name state'); // Populates destination details
+
+        res.status(200).json({ success: true, count: inquiries.length, data: inquiries });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
     }
 };
 
-module.exports = { trackInquiry, getInquiryStats };
+// UPDATE module.exports at the bottom to include:
+module.exports = {
+    trackInquiry,
+    getInquiryStats,
+    getUserInquiries,
+    getAllInquiries // <-- ADD THIS
+};

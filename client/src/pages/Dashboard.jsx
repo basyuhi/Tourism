@@ -12,7 +12,6 @@ const Dashboard = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        // Redirect to login if not authenticated
         if (!user) {
             navigate('/auth');
             return;

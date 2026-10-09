@@ -1,7 +1,5 @@
 const TripPost = require("../models/TripPost");
 
-// @desc    Get all active trip posts
-// @route   GET /api/trip-posts
 const getTripPosts = async (req, res) => {
     try {
         const query = { isFilled: false };
@@ -17,8 +15,6 @@ const getTripPosts = async (req, res) => {
     }
 };
 
-// @desc    Get single trip post by ID
-// @route   GET /api/trip-posts/:id
 const getTripPostById = async (req, res) => {
     try {
         const post = await TripPost.findById(req.params.id).populate("user", "name email");
@@ -32,11 +28,9 @@ const getTripPostById = async (req, res) => {
     }
 };
 
-// @desc    Create a new trip post (Protected)
-// @route   POST /api/trip-posts
 const createTripPost = async (req, res) => {
     try {
-        // Automatically attach the logged-in user's ID
+        
         const post = await TripPost.create({ ...req.body, user: req.user._id });
         res.status(201).json(post);
     } catch (error) {
@@ -44,13 +38,10 @@ const createTripPost = async (req, res) => {
     }
 };
 
-// @desc    Update a trip post (Protected - Owner or Admin only)
-// @route   PUT /api/trip-posts/:id
 const updateTripPost = async (req, res) => {
     try {
         const post = await TripPost.findById(req.params.id);
         if (post) {
-            // Check if the logged-in user is the owner OR an admin
             if (post.user.toString() !== req.user._id.toString() && req.user.role !== "admin") {
                 return res.status(403).json({ message: "Not authorized to update this post" });
             }

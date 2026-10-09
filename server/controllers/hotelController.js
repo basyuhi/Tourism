@@ -1,7 +1,5 @@
 const Hotel = require("../models/Hotel");
 
-// @desc    Manually add a new hotel/property (Admin only)
-// @route   POST /api/hotels
 const createHotel = async (req, res) => {
     try {
         const { name, location, address, rating, priceLevel, photoUrl } = req.body;
@@ -31,8 +29,6 @@ const createHotel = async (req, res) => {
     }
 };
 
-// @desc    Get all hotels from database
-// @route   GET /api/hotels
 const getHotels = async (req, res) => {
     try {
         const { location } = req.query;
@@ -52,8 +48,7 @@ const getHotels = async (req, res) => {
         });
     }
 };
-// @desc    Get a single hotel by ID
-// @route   GET /api/hotels/:id
+
 const getHotelById = async (req, res) => {
     try {
         const hotel = await Hotel.findById(req.params.id);
@@ -67,9 +62,8 @@ const getHotelById = async (req, res) => {
     }
 };
 
-// Update your module.exports at the bottom to include it:
 module.exports = {
     createHotel,
-    getHotelById, // <-- ADD THIS
+    getHotelById, 
     getHotels
 };

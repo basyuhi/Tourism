@@ -97,6 +97,6 @@ module.exports = {
     getMe,
     toggleWishlist,
     getWishlist,
-    toggleHotelWishlist, // <-- EXPORTED
-    getHotelWishlist     // <-- EXPORTED
+    toggleHotelWishlist, 
+    getHotelWishlist     
 };

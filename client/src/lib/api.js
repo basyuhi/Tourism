@@ -1,6 +1,3 @@
-// src/lib/api.js
-
-// Use 127.0.0.1 instead of localhost to avoid resolution issues
 const API_BASE_URL = 'http://127.0.0.1:5000';
 
 export const fetchDestinations = async () => {
@@ -18,7 +15,6 @@ export const fetchDestinations = async () => {
 
 export const fetchDestinationById = async (id) => {
     try {
-        // Using the /id/:id route we created earlier
         const response = await fetch(`${API_BASE_URL}/api/destinations/id/${id}`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -29,12 +25,11 @@ export const fetchDestinationById = async (id) => {
         throw error;
     }
 };
-// Add this to the bottom of src/lib/api.js
 
 export const submitInquiry = async (inquiryData) => {
     const url = `${API_BASE_URL}/api/inquiries/track`;
-    console.log("🚀 Attempting to send inquiry to:", url); // <-- ADD THIS LINE
-    console.log("📦 Payload:", inquiryData); // <-- ADD THIS LINE
+    console.log("🚀 Attempting to send inquiry to:", url); 
+    console.log("📦 Payload:", inquiryData); 
 
     try {
         const response = await fetch(url, {
@@ -54,9 +49,6 @@ export const submitInquiry = async (inquiryData) => {
         throw error;
     }
 };
-// Add to the bottom of src/lib/api.js
-
-// Update these two functions in src/lib/api.js
 
 export const loginUser = async (credentials) => {
     try {
@@ -68,7 +60,6 @@ export const loginUser = async (credentials) => {
 
         const data = await response.json();
         if (!response.ok) {
-            // Throw the actual error message from the backend (e.g., "Invalid email or password")
             throw new Error(data.message || 'Login failed');
         }
         return data;
@@ -88,7 +79,6 @@ export const registerUser = async (userData) => {
 
         const data = await response.json();
         if (!response.ok) {
-            // Throw the actual error message from the backend (e.g., "User already exists")
             throw new Error(data.message || 'Registration failed');
         }
         return data;
@@ -97,7 +87,6 @@ export const registerUser = async (userData) => {
         throw error;
     }
 };
-// Add to the bottom of src/lib/api.js
 
 export const fetchMyInquiries = async () => {
     try {
@@ -106,7 +95,7 @@ export const fetchMyInquiries = async () => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`, // Send the JWT token
+                'Authorization': `Bearer ${token}`, 
             },
         });
 
@@ -114,7 +103,7 @@ export const fetchMyInquiries = async () => {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        return data.data; // Return the array of inquiries
+        return data.data; 
     } catch (error) {
         console.error("Failed to fetch inquiries:", error);
         throw error;

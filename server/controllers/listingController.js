@@ -1,7 +1,6 @@
 const Listing = require("../models/Listing");
 
-// @desc    Get all listings
-// @route   GET /api/listings
+
 const getListings = async (req, res) => {
     try {
         const query = {};
@@ -15,8 +14,7 @@ const getListings = async (req, res) => {
     }
 };
 
-// @desc    Get single listing by ID
-// @route   GET /api/listings/:id
+
 const getListingById = async (req, res) => {
     try {
         const listing = await Listing.findById(req.params.id).populate("user", "name email");
@@ -30,8 +28,7 @@ const getListingById = async (req, res) => {
     }
 };
 
-// @desc    Create a new listing (Protected)
-// @route   POST /api/listings
+
 const createListing = async (req, res) => {
     try {
         const listing = await Listing.create({ ...req.body, user: req.user._id });
@@ -41,8 +38,7 @@ const createListing = async (req, res) => {
     }
 };
 
-// @desc    Update a listing (Protected - Owner or Admin only)
-// @route   PUT /api/listings/:id
+
 const updateListing = async (req, res) => {
     try {
         const listing = await Listing.findById(req.params.id);

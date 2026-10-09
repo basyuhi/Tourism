@@ -2,8 +2,6 @@ const Listing = require("../models/Listing");
 const TripPost = require("../models/TripPost");
 const User = require("../models/User");
 
-// @desc    Verify a marketplace listing (Admin only)
-// @route   PUT /api/admin/listings/:id/verify
 const verifyListing = async (req, res) => {
     try {
         const listing = await Listing.findById(req.params.id);
@@ -19,8 +17,6 @@ const verifyListing = async (req, res) => {
     }
 };
 
-// @desc    Delete a trip post (e.g., if it's spam or inappropriate)
-// @route   DELETE /api/admin/trip-posts/:id
 const deleteTripPost = async (req, res) => {
     try {
         const post = await TripPost.findById(req.params.id);
@@ -35,8 +31,6 @@ const deleteTripPost = async (req, res) => {
     }
 };
 
-// @desc    Get all users (Admin dashboard view)
-// @route   GET /api/admin/users
 const getAllUsers = async (req, res) => {
     try {
         const users = await User.find({}).select("-password");

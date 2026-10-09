@@ -1,6 +1,3 @@
-// src/context/AuthContext.jsx
-
-/* eslint-disable react-refresh/only-export-components */
 import { createContext, useState, useContext } from 'react';
 import { loginUser, registerUser } from '../lib/api';
 
@@ -51,12 +48,11 @@ export const AuthProvider = ({ children }) => {
         try {
             console.log("📝 Attempting register with:", email);
             const data = await registerUser({ name, email, password });
-            console.log("✅ RAW Backend register response:", data); // <--- LOOK AT THIS IN CONSOLE
+            console.log("✅ RAW Backend register response:", data);
 
             let userData = data?.user || data?.data?.user || data?.data || data;
             const token = data?.token || data?.data?.token || userData?.token;
 
-            // Check if userData actually has an ID or email
             if (userData && (userData._id || userData.email)) {
                 setUser(userData);
                 localStorage.setItem('tourismUser', JSON.stringify(userData));

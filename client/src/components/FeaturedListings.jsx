@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchDestinations } from '../lib/api';
 import OptimizedImage from './OptimizedImage';
-// A beautiful fallback image in case a database image link is broken (like the Shillong one)
-// const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80";
 
 const FeaturedListings = () => {
     const [featured, setFeatured] = useState([]);
@@ -13,7 +11,6 @@ const FeaturedListings = () => {
         const loadData = async () => {
             try {
                 const data = await fetchDestinations();
-                // Format the data and take only the first 3 for the homepage
                 const formatted = data.slice(0, 3).map(item => ({
                     id: item._id,
                     title: item.name,
@@ -60,7 +57,6 @@ const FeaturedListings = () => {
                         key={item.id}
                         className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition duration-300 border border-gray-100 cursor-pointer group block"
                     >
-                        {/* Image Container with Smart Fallback */}
                         <div className="relative h-56 overflow-hidden">
                             <OptimizedImage
                                 src={item.image}

@@ -1,7 +1,5 @@
 const Destination = require("../models/Destination");
 
-// @desc    Get all destinations
-// @route   GET /api/destinations
 const getDestinations = async (req, res) => {
     try {
         const destinations = await Destination.find({});
@@ -11,8 +9,6 @@ const getDestinations = async (req, res) => {
     }
 };
 
-// @desc    Get single destination by slug
-// @route   GET /api/destinations/:slug
 const getDestinationBySlug = async (req, res) => {
     try {
         const destination = await Destination.findOne({ slug: req.params.slug });
@@ -26,8 +22,6 @@ const getDestinationBySlug = async (req, res) => {
     }
 };
 
-// @desc    Create a new destination (For Admin/Seeding)
-// @route   POST /api/destinations
 const createDestination = async (req, res) => {
     try {
         const destination = await Destination.create(req.body);
@@ -36,8 +30,7 @@ const createDestination = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
-// @desc    Get single destination by MongoDB ID
-// @route   GET /api/destinations/id/:id
+
 const getDestinationById = async (req, res) => {
     try {
         const destination = await Destination.findById(req.params.id);

@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 const mainLinks = [
     { to: '/search', label: 'Explore' },
     { to: '/hotels', label: 'Hotels' },
-    { to: '/experiences', label: 'Experiences' }, // create this route, or remove the entry
+    { to: '/experiences', label: 'Experiences' }, 
 ];
 
 const Navbar = () => {
@@ -23,7 +23,6 @@ const Navbar = () => {
 
     const linkClass = 'text-gray-700 hover:text-blue-600 font-medium transition';
 
-    // Links only for logged-in users (shown in both desktop and mobile)
     const userLinks = user
         ? [
             ...(user.role === 'admin'
@@ -43,7 +42,6 @@ const Navbar = () => {
                         <span className="text-2xl font-bold text-blue-600">TravelLocal</span>
                     </Link>
 
-                    {/* Desktop main links */}
                     <div className="hidden md:flex space-x-8">
                         {mainLinks.map((l) => (
                             <Link key={l.to} to={l.to} className={linkClass}>
@@ -52,7 +50,6 @@ const Navbar = () => {
                         ))}
                     </div>
 
-                    {/* Desktop right side */}
                     <div className="hidden md:flex items-center space-x-4">
                         {user ? (
                             <>
@@ -84,7 +81,6 @@ const Navbar = () => {
                         )}
                     </div>
 
-                    {/* Mobile hamburger */}
                     <button
                         className="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100"
                         aria-label="Toggle menu"
@@ -102,7 +98,6 @@ const Navbar = () => {
                 </div>
             </div>
 
-            {/* Mobile menu panel */}
             {menuOpen && (
                 <div className="md:hidden border-t border-gray-100 bg-white px-4 py-3 space-y-3">
                     {[...mainLinks, ...userLinks].map((l) => (

@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema(
         password: { type: String, required: true },
         role: { type: String, enum: ["user", "admin", "vendor"], default: "user" },
         wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Destination" }],
-        savedHotels: [{ type: mongoose.Schema.Types.ObjectId, ref: "Hotel" }] // <-- ADDED THIS
+        savedHotels: [{ type: mongoose.Schema.Types.ObjectId, ref: "Hotel" }] 
     },
     { timestamps: true }
 );

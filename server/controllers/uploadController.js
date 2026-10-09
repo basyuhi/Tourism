@@ -1,21 +1,18 @@
 const imagekit = require("../config/imagekit");
 
-// @desc    Upload an image to ImageKit
-// @route   POST /api/upload/image
 const uploadImage = async (req, res) => {
     try {
         if (!req.file) {
             return res.status(400).json({ message: "No file uploaded" });
         }
 
-        // Upload the file buffer to ImageKit
+        
         const response = await imagekit.upload({
-            file: req.file.buffer, // The file buffer from Multer
+            file: req.file.buffer, 
             fileName: req.file.originalname,
-            folder: "/bibek-tourism", // Organizes your uploads in ImageKit dashboard
+            folder: "/bibek-tourism",
         });
 
-        // Return the secure URL and file details
         res.status(200).json({
             success: true,
             url: response.url,

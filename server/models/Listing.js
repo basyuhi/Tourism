@@ -37,14 +37,13 @@ const listingSchema = new mongoose.Schema(
             type: String,
             default: "",
         },
-        // --- NEW FIELDS ADDED HERE ---
         affiliateUrl: {
             type: String,
-            default: "", // e.g., Booking.com or Agoda deep link
+            default: "", 
         },
         externalRating: {
             type: String,
-            default: "", // e.g., "4.5★ on Google"
+            default: "", 
         },
         // -----------------------------
         priceRange: {

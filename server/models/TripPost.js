@@ -30,7 +30,7 @@ const tripPostSchema = new mongoose.Schema(
             required: true,
         },
         budget: {
-            type: String, // e.g., "₹3000 - ₹5000"
+            type: String, 
             required: true,
         },
         description: {
@@ -38,17 +38,17 @@ const tripPostSchema = new mongoose.Schema(
             required: true,
         },
         contactInfo: {
-            type: String, // e.g., WhatsApp number or Email
+            type: String,
             required: [true, "Contact info is required for matching"],
         },
         user: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User", // Links to the User model
+            ref: "User",
             required: true,
         },
         isFilled: {
             type: Boolean,
-            default: false, // Set to true when they find a buddy
+            default: false, 
         },
     },
     {

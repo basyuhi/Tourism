@@ -27,7 +27,6 @@ const OptimizedImage = ({
 
     let optimizedSrc = src;
 
-    // Only optimize images that are actually hosted on ImageKit
     if (src.includes("ik.imagekit.io")) {
         const parts = src.split(".com/");
 

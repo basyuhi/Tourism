@@ -6,9 +6,9 @@ import Auth from './pages/Auth';
 import Dashboard from './pages/Dashboard';
 import Wishlist from './pages/Wishlist';
 import AdminDashboard from './pages/AdminDashboard';
-import Hotels from './pages/Hotels'; // <-- ADD THIS IMPORT
-import HotelDetails from './pages/HotelDetails'; // <-- ADD THIS
-import Experiences from './pages/Experiences'; // <-- ADD THIS
+import Hotels from './pages/Hotels'; 
+import HotelDetails from './pages/HotelDetails'; 
+import Experiences from './pages/Experiences'; 
 
 function App() {
   return (

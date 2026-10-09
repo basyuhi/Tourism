@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.post("/track", trackInquiry);
 router.get("/stats/:listingId", protect, getInquiryStats);
-router.get("/my-inquiries", protect, getUserInquiries); // <-- ADD THIS
+router.get("/my-inquiries", protect, getUserInquiries);
 router.get("/all", protect, getAllInquiries);
 module.exports = router;

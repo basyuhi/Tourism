@@ -15,7 +15,7 @@ const destinationSchema = new mongoose.Schema(
         slug: {
             type: String,
             required: true,
-            unique: true, // e.g., "kaziranga" for /api/destinations/kaziranga
+            unique: true, 
             lowercase: true,
         },
         description: {
@@ -36,7 +36,7 @@ const destinationSchema = new mongoose.Schema(
         },
     },
     {
-        timestamps: true, // Adds createdAt and updatedAt automatically
+        timestamps: true,
     }
 );
 
